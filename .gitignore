@@ -8,4 +8,9 @@ pom.xml.asc
 /.lein-*
 /.nrepl-port
 
+# ignore intellij specific files
+.idea/
+*.iml
+
+# ignore vim swap files
 *.swp
