@@ -17,11 +17,17 @@
       #(true? (.get is-prime-array (- % 1)))
       (range 2 max))))
 
+(defn multiple? [n div]
+  (= 0 (mod n div)))
+
 ; stolen from https://github.com/pgambling
 (defn prime-factors
-  ([num] (prime-factors num 2 #{}))
+  ([num] (prime-factors num 2 []))
   ([num i factors]
    (cond
      (= 1 num) factors
      (multiple? num i) (recur (/ num i) i (conj factors i))
      :else (recur num (inc i) factors))))
+
+; prime factor frequency map e.g. num = 8, result: { 2 3 }
+(defn prime-factor-map [num] (frequencies (prime-factors num)))
