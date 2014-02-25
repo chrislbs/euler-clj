@@ -1,4 +1,4 @@
-(ns euler-clojure.problem5)
+(ns euler-clojure.problem5
+  (:require [euler-clojure.math.util :as math-util]))
 
-(defn run []
-  (first (for [num (range) :when (evenly-divisible? num)] num)))
+(defn run [] (math-util/lcm (range 2 21)))
