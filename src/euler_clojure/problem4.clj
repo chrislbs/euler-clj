@@ -10,10 +10,9 @@
     (= a b)))
 
 (defn run []
-  (println
-    (reduce
-      max 0
-      (for [ x (range 100 1000)
-             y (range 100 1000)
-             :when (is-palindrome? (* x y))]
-        (* x y)))))
+  (reduce
+    max 0
+    (for [ x (range 100 1000)
+           y (range 100 1000)
+           :when (is-palindrome? (* x y))]
+      (* x y))))

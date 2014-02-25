@@ -12,5 +12,5 @@
            problem-fn (symbol (format "%s/run" problem-str))]
       (require problem-ns)
       (println (format "Running problem %d :" problem-number))
-      ((resolve problem-fn))
+      (println ((resolve problem-fn)))
       )))
