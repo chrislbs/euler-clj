@@ -11,6 +11,9 @@
       a
       (recur b, (mod a b)))))
 
+(defn fib [a b]
+  (cons a (lazy-seq (fib b (+ b a)))))
+
 ; get the most occurring factors from a collection of prime-factor-maps
 (defn most-occuring-factors [factor-map-coll]
   (reduce
