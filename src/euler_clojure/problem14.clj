@@ -1,21 +1,34 @@
 (ns euler-clojure.problem14)
 
-(defn collatz-sequence [num]
-  (concat
-    (take-while
-      #(not= 1 %)
-      (iterate
-        (fn [n]
-          (if (odd? n) (+ 1 (* 3 n)) (quot n 2)))
-        num
-        ))
-    (list 1)))
+(def collatz-map (atom {}))
 
-(def upper-limit 10000)
+(defn collatz-op [num]
+  (if (odd? num) (+ 1 (* 3 num)) (quot num 2)))
+
+(defn collatz-sequence [num]
+  (if (= num 1)
+    (list 1)
+    (cons num (lazy-seq (collatz-sequence (collatz-op num))))))
+
+(defn count-collatz
+  ([num]
+   (count-collatz num 0))
+  ([num count]
+   (cond
+     (= 1 num) 1
+     (contains? @collatz-map num) (+ count (get @collatz-map num))
+     :else (count-collatz (collatz-op num) (inc count))))
+  )
+
+(defn build-collatz-map [n]
+  (if-not (get @collatz-map n)
+    (swap!
+      collatz-map
+      (fn [map] (assoc map n (count-collatz n))))))
 
 (defn run []
+  (doall (map build-collatz-map (range 1 1000000)))
   (reduce
-    (fn [prev, cur] (if (> (get cur 1) (get prev 1)) cur prev))
-    (map
-      (fn [num] [num (count (collatz-sequence num))])
-      (range 1 upper-limit))))
+    (fn [prev cur]
+      (if (> (get prev 1) (get cur 1)) prev cur))
+    @collatz-map))
